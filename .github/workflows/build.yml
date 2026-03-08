@@ -12,17 +12,20 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # Качаем SDK через надежный wget с правильной веб-кодировкой плюса (%2B)
     - name: Download VCV Rack SDK
       run: |
-        curl -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" -o sdk.zip https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64+arm64.zip
+        wget "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip" -O sdk.zip
         unzip sdk.zip
 
+    # Компилируем код
     - name: Compile Plugin
       run: |
         export RACK_DIR=$PWD/Rack-SDK
         make clean
         make dist
 
+    # Забираем готовенькое
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
