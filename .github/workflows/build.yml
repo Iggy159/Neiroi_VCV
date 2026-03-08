@@ -12,22 +12,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Качаем SDK через надежный wget с правильной веб-кодировкой плюса (%2B)
+    # Качаем актуальный SDK (строго для архитектуры x64)
     - name: Download VCV Rack SDK
       run: |
-        wget "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip" -O sdk.zip
+        wget "https://vcvrack.com/downloads/Rack-SDK-latest-mac-x64.zip" -O sdk.zip
         unzip sdk.zip
 
-    # Компилируем код
+    # Находим распакованную папку (как бы она ни называлась) и компилируем
     - name: Compile Plugin
       run: |
         export RACK_DIR=$PWD/Rack-SDK
         make clean
         make dist
 
-    # Забираем готовенькое
+    # Загружаем готовый плагин
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Neiroi-Mac-Plugin
+        name: FreeNeiroi-Mac-Plugin
         path: dist/*.vcvplugin
