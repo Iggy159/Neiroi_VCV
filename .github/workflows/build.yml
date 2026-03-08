@@ -11,9 +11,10 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+
     - name: Download VCV Rack SDK
       run: |
-        curl -f -L -o sdk.zip https://vcvrack.com/downloads/Rack-SDK-2.4.1-mac-x64+arm64.zip || curl -f -L -o sdk.zip https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64+arm64.zip
+        curl -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15" -o sdk.zip https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64+arm64.zip
         unzip sdk.zip
 
     - name: Compile Plugin
