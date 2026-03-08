@@ -1,0 +1,30 @@
+name: Build VCV Rack Plugin
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build plugin
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    # Используем готовый инструмент для сборки под все платформы
+    - name: Build plugin using rack-plugin-toolchain
+      uses: qno/rack-plugin-toolchain-action@v2
+      with:
+        rack-sdk-version: '2.4.0'
+        plugin-version: '2.0.0'
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Neiroi-Nightly-Builds
+        path: target/*.vcvplugin
