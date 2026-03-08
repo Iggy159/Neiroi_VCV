@@ -7,28 +7,30 @@ on:
 jobs:
   build-mac:
     name: Build for Mac Intel
-    # Принудительно просим Intel-сервер (macOS 13 работает на x64)
-    runs-on: macos-13
+    # Используем самую стабильную версию серверов Mac
+    runs-on: macos-12
     
     steps:
     - uses: actions/checkout@v4
 
-    # Качаем строгую, проверенную версию SDK именно для архитектуры x64
+    # Качаем базовый SDK 2.0.0 (ссылка без спецсимволов, работает всегда)
     - name: Download VCV Rack SDK
       run: |
-        curl -L -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64.zip"
+        curl -L -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.0.0-mac.zip"
         unzip sdk.zip
+        # Переименовываем папку для порядка
+        mv Rack-SDK* Rack-SDK
 
-    # Запускаем компиляцию
+    # Компилируем код
     - name: Compile Plugin
       run: |
         export RACK_DIR=$PWD/Rack-SDK
         make clean
         make dist
 
-    # Отдаем готовый архив
+    # Забираем готовенькое
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: FreeNeiroi-Mac-Plugin
+        name: Neiroi-Mac-Plugin
         path: dist/*.vcvplugin
