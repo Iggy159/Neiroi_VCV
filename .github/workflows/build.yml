@@ -7,28 +7,28 @@ on:
 jobs:
   build-mac:
     name: Build for Mac Intel
-    # Используем самую стабильную версию серверов Mac
     runs-on: macos-12
     
     steps:
     - uses: actions/checkout@v4
 
-    # Качаем базовый SDK 2.0.0 (ссылка без спецсимволов, работает всегда)
+    # Качаем SDK с флагом --fail (сразу падать при ошибке 404)
     - name: Download VCV Rack SDK
       run: |
-        curl -L -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.0.0-mac.zip"
-        unzip sdk.zip
-        # Переименовываем папку для порядка
+        curl --fail -L -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip"
+        
+        # Распаковываем тихо и перезаписываем без вопросов (-q -o)
+        unzip -q -o sdk.zip
+        
+        # Находим папку и переименовываем
         mv Rack-SDK* Rack-SDK
 
-    # Компилируем код
     - name: Compile Plugin
       run: |
         export RACK_DIR=$PWD/Rack-SDK
         make clean
         make dist
 
-    # Забираем готовенькое
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
