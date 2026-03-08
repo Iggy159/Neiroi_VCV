@@ -11,17 +11,15 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-
-    - name: Install zstd
-      run: brew install zstd
     - name: Download VCV Rack SDK
       run: |
-        curl -o sdk.zip https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64+arm64.zip
+        curl -f -L -o sdk.zip https://vcvrack.com/downloads/Rack-SDK-2.4.1-mac-x64+arm64.zip || curl -f -L -o sdk.zip https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64+arm64.zip
         unzip sdk.zip
 
     - name: Compile Plugin
       run: |
         export RACK_DIR=$PWD/Rack-SDK
+        make clean
         make dist
 
     - name: Upload Artifact
