@@ -12,7 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Качаем SDK с флагом --fail (сразу падать при ошибке 404)
     - name: Download VCV Rack SDK
       run: |
         curl --fail -L -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip"
