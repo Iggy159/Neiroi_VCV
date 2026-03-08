@@ -16,7 +16,6 @@ jobs:
       with:
         submodules: recursive
 
-    # Используем готовый инструмент для сборки под все платформы
     - name: Build plugin using rack-plugin-toolchain
       uses: qno/rack-plugin-toolchain-action@v2
       with:
@@ -24,7 +23,7 @@ jobs:
         plugin-version: '2.0.0'
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Neiroi-Nightly-Builds
         path: target/*.vcvplugin
