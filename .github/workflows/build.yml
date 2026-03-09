@@ -8,3 +8,24 @@ jobs:
   build-mac:
     name: Build for Mac Intel
     runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download VCV Rack SDK
+        run: |
+          curl -f -L -o sdk.zip ""
+          unzip -q -o sdk.zip
+          mv Rack-SDK* Rack-SDK
+
+      - name: Compile Plugin
+        run: |
+          export RACK_DIR=$PWD/Rack-SDK
+          make clean
+          make dist
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Neiroi-Mac-Plugin
+          path: dist/*.vcvplugin
