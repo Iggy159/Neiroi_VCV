@@ -12,10 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Качаем универсальный SDK (Intel + M1) с правильной кодировкой плюса (%2B)
+      # Скачиваем с маскировкой под браузер (-A) и правильным плюсом (%2B)
       - name: Download VCV Rack SDK
         run: |
-          curl -f -L -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip"
+          curl -f -L -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip"
           unzip -q -o sdk.zip
           mv Rack-SDK* Rack-SDK
 
@@ -28,5 +28,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: FreeNeiroi-Mac-Plugin
+          name: Neiroi-Mac-Plugin
           path: dist/*.vcvplugin
