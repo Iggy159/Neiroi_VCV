@@ -6,15 +6,15 @@ on:
 
 jobs:
   build-mac:
-    name: Build for Mac Intel
-    runs-on: macos-13
+    name: Build for Mac
+    runs-on: macos-latest
     
     steps:
       - uses: actions/checkout@v4
 
       - name: Download VCV Rack SDK
         run: |
-          wget -O sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.6.0-mac-x64.zip"
+          wget -O sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip"
           unzip -q -o sdk.zip
           mv Rack-SDK* Rack-SDK
 
@@ -27,5 +27,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: FreeNeiroi-Mac-Plugin
+          name: Neiroi-Mac-Plugin
           path: dist/*.vcvplugin
