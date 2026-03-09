@@ -6,15 +6,16 @@ on:
 
 jobs:
   build-mac:
-    name: Build for Mac Intel
+    name: Build for Mac Universal
     runs-on: macos-latest
-
+    
     steps:
       - uses: actions/checkout@v4
 
+      # Качаем универсальный SDK (Intel + M1) с правильной кодировкой плюса (%2B)
       - name: Download VCV Rack SDK
         run: |
-          curl -f -L -o sdk.zip ""
+          curl -f -L -o sdk.zip "https://vcvrack.com/downloads/Rack-SDK-2.4.0-mac-x64%2Barm64.zip"
           unzip -q -o sdk.zip
           mv Rack-SDK* Rack-SDK
 
@@ -27,5 +28,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Neiroi-Mac-Plugin
+          name: FreeNeiroi-Mac-Plugin
           path: dist/*.vcvplugin
